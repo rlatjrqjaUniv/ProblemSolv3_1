@@ -16,6 +16,16 @@ public class BulletScript : MonoBehaviour
         transform.Translate(Vector2.right * Time.deltaTime * 7f);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Target"))
+        {
+            Debug.Log("Hit!!");
+            Mscript.AddBullet(this.gameObject);
+            gameObject.SetActive(false);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Target"))

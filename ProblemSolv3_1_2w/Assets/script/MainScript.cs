@@ -1,10 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Queue1;
+using Queue2;
+using Stack;
 
 public class MainScript : MonoBehaviour
 {
-    public Queue<GameObject> bulletPool = new Queue<GameObject>();
+    //public Queue_4w<GameObject> bulletPool = new Queue_4w<GameObject>();
+    public Stack<GameObject> bulletPool = new Stack<GameObject>();
     public GameObject bulletPrefab;
     public GameObject GreenBox;
     public GameObject RedBox;
@@ -15,7 +18,8 @@ public class MainScript : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletPrefab);
             bullet.SetActive(false);
-            bulletPool.Enqueue(bullet);
+            bulletPool.Push(bullet);
+            //bulletPool.Enqueue(bullet);
         }
     }
 
@@ -23,7 +27,8 @@ public class MainScript : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            GameObject bullet = bulletPool.Dequeue().value;
+            //GameObject bullet = bulletPool.Dequeue().value;
+            GameObject bullet = bulletPool.Pop().value;
             bullet.transform.position = GreenBox.transform.position;
             bullet.SetActive(true);
         }
@@ -31,6 +36,7 @@ public class MainScript : MonoBehaviour
 
     public void AddBullet(GameObject bullet)
     {
-        bulletPool.Enqueue(bullet);
+        //bulletPool.Enqueue(bullet);
+        bulletPool.Push(bullet);
     }
 }

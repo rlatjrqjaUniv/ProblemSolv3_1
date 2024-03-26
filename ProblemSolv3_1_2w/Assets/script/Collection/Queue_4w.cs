@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace Queue1
+namespace Queue2
 {
-    public class Node<T>
+    public class Node_4w<T>
     {
         public T value;
-        public Node<T> nextNode;
+        public Node_4w<T> nextNode;
 
-        public Node(T data)
+        public Node_4w(T data)
         {
             value = data;
             nextNode = null;
@@ -18,26 +18,42 @@ namespace Queue1
     }
 
 
-    public class Queue<T>
+    public class Queue_4w<T>
     {
-        Node<T> head;
+        Node_4w<T> head;
+        Node_4w<T> foot;
 
-        public Queue()
+        public Queue_4w()
         {
             head = null;
+            foot = null;
         }
 
         public void Enqueue(T Object)
         {
-            Node<T> current = head;
+            Node_4w<T> temp = new Node_4w<T>(Object);
 
             if (head == null)
             {
-                head = new Node<T>(Object);
+                head = temp;
+                foot = temp;
                 return;
             }
             else
             {
+                if (head == foot)
+                {
+                    head.nextNode = foot;
+                    foot.nextNode = temp;
+                    foot = foot.nextNode;
+                }
+                else
+                {
+                    foot.nextNode = temp;
+                    foot = foot.nextNode;
+                }
+
+                /*
                 while (current.nextNode != null)
                 {
                     current = current.nextNode;
@@ -45,19 +61,20 @@ namespace Queue1
 
                 if (current.nextNode == null)
                 {
-                    current.nextNode = new Node<T>(Object);
+                    current.nextNode = new Node_4w<T>(Object);
                 }
+                */
             }
         }
 
-        public Node<T> Dequeue()
+        public Node_4w<T> Dequeue()
         {
             if (head == null)
             {
                 return null;
             }
 
-            Node<T> result = head;
+            Node_4w<T> result = head;
             head = head.nextNode;
 
             return result;

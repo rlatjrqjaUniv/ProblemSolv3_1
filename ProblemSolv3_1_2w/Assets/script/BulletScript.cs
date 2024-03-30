@@ -14,25 +14,37 @@ public class BulletScript : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector2.right * Time.deltaTime * 7f);
+
+        Collider[] col = Physics.OverlapBox(transform.position, Vector3.right * 0.3f);
+        foreach(Collider temp in col)
+        {
+            if(temp.gameObject.CompareTag("Target"))
+            {
+                HitEvent();
+            }
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Target"))
         {
-            Debug.Log("Hit!!");
-            Mscript.AddBullet(this.gameObject);
-            gameObject.SetActive(false);
+            HitTarget();
         }
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Target"))
+        if (other.gameObject.CompareTag("Target"))
         {
-            Debug.Log("Hit!!");
-            Mscript.AddBullet(this.gameObject);
-            gameObject.SetActive(false);
+            HitEvent();
         }
+    }
+
+    void HitEvent()
+    {
+        Debug.Log("Hit!!");
+        Mscript.AddBullet(this.gameObject);
+        gameObject.SetActive(false);
     }
 }

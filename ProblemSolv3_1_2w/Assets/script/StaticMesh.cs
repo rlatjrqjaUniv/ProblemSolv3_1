@@ -75,6 +75,10 @@ public class StaticMesh : MonoBehaviour
 
         mf.mesh = mesh;
         mr.material = material;
+
+        //노멀 계산해서 메시에 던져주기
+        //메시-머테리얼-쉐이더 순서로 노멀 정보를 받아오는데 별에는 지금 노멀이 없음
+        //그래서 정점 정보 넘겨주는 것처럼 노멀 넘겨주기
     }
 
     void Start()

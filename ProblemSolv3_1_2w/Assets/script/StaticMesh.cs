@@ -23,6 +23,17 @@ public class StaticMesh : MonoBehaviour
 {
     public Material material;
 
+    Vector3 GetNormal(Vector3 v1, Vector3 v2)
+    {
+        Vector3 result = Vector3.Cross(v1,v2); //Vector3.Normalize(v1), Vector3.Normalize(v2) 
+        return result;
+    }
+
+    Vector3 GetVector(Vector3 v1, Vector3 v2)
+    {
+        return v1 - v2;
+    }
+
     public void GenerateMesh()
     {
         Mesh mesh = new Mesh();
@@ -69,6 +80,31 @@ public class StaticMesh : MonoBehaviour
             4,9,10
         };
         mesh.triangles = triangleIndices;
+
+        Vector3[] normals = new Vector3[]
+        {
+            Vector3.Normalize(GetNormal(vertices[0] - vertices[1], vertices[0] - vertices[2]) + GetNormal(vertices[0] - vertices[6], vertices[0] - vertices[1]) + GetNormal(vertices[0] - vertices[2], vertices[0] - vertices[6])),
+            Vector3.Normalize(GetNormal(vertices[1] - vertices[2], vertices[1] - vertices[0]) + GetNormal(vertices[1] - vertices[7], vertices[1] - vertices[2]) + GetNormal(vertices[1] - vertices[0], vertices[1] - vertices[7])),
+            Vector3.Normalize(GetNormal(vertices[2] - vertices[0], vertices[2] - vertices[1]) + GetNormal(vertices[2] - vertices[8], vertices[2] - vertices[0]) + GetNormal(vertices[2] - vertices[1], vertices[2] - vertices[8])),
+
+            Vector3.Normalize(GetNormal(vertices[3] - vertices[4], vertices[3] - vertices[5]) + GetNormal(vertices[3] - vertices[9], vertices[3] - vertices[4]) + GetNormal(vertices[3] - vertices[5], vertices[3] - vertices[9])),
+            Vector3.Normalize(GetNormal(vertices[4] - vertices[5], vertices[4] - vertices[3]) + GetNormal(vertices[4] - vertices[10], vertices[4] - vertices[5]) + GetNormal(vertices[4] - vertices[3], vertices[4] - vertices[10])),
+            Vector3.Normalize(GetNormal(vertices[5] - vertices[3], vertices[5] - vertices[4]) + GetNormal(vertices[5] - vertices[11], vertices[5] - vertices[3]) + GetNormal(vertices[5] - vertices[4], vertices[5] - vertices[11])),
+
+
+            Vector3.Normalize(GetNormal(vertices[6] - vertices[8], vertices[6] - vertices[7]) + GetNormal(vertices[6] - vertices[0], vertices[6] - vertices[8]) + GetNormal(vertices[6] - vertices[7], vertices[6] - vertices[0])),
+            Vector3.Normalize(GetNormal(vertices[7] - vertices[6], vertices[7] - vertices[8]) + GetNormal(vertices[7] - vertices[8], vertices[7] - vertices[1]) + GetNormal(vertices[7] - vertices[1], vertices[7] - vertices[6])),
+            Vector3.Normalize(GetNormal(vertices[8] - vertices[7], vertices[8] - vertices[6]) + GetNormal(vertices[8] - vertices[6], vertices[8] - vertices[2]) + GetNormal(vertices[8] - vertices[2], vertices[8] - vertices[7])),
+
+            Vector3.Normalize(GetNormal(vertices[9] - vertices[11], vertices[9] - vertices[10]) + GetNormal(vertices[9] - vertices[3], vertices[9] - vertices[11]) + GetNormal(vertices[9] - vertices[10], vertices[9] - vertices[3])),
+            Vector3.Normalize(GetNormal(vertices[10] - vertices[9], vertices[10] - vertices[11]) + GetNormal(vertices[10] - vertices[11], vertices[10] - vertices[4]) + GetNormal(vertices[10] - vertices[4], vertices[10] - vertices[9])),
+            Vector3.Normalize(GetNormal(vertices[11] - vertices[10], vertices[11] - vertices[9]) + GetNormal(vertices[11] - vertices[9], vertices[11] - vertices[5]) + GetNormal(vertices[11] - vertices[5], vertices[11] - vertices[10])),
+        };
+        mesh.normals = normals;
+
+        //Debug.Log(GetNormal(vertices[0] - vertices[1], vertices[0] - vertices[2]));
+        //Debug.Log(GetNormal(vertices[0] - vertices[6], vertices[0] - vertices[1]));
+        //Debug.Log(GetNormal(vertices[0] - vertices[2], vertices[0] - vertices[6]));
 
         MeshFilter mf = this.AddComponent<MeshFilter>();
         MeshRenderer mr = this.AddComponent<MeshRenderer>();

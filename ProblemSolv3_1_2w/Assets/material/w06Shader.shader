@@ -6,12 +6,13 @@
 
 // Upgrade NOTE: commented out 'float3 _WorldSpaceCameraPos', a built-in variable
 
-Shader "Unlit/w06Shader"
+Shader"Unlit/w06Shader"
 {
     Properties
     {
         _DiffuseColor("DiffuseColor",Color) = (1,1,1,1)
         _LightDirection("LightDirection",Vector) = (1,-1,-1,0)
+        _Level("Level",float) = 4.3
     }
     SubShader
     {
@@ -42,6 +43,7 @@ Shader "Unlit/w06Shader"
             float4 _DiffuseColor;
             float4 _LightDirection;
             float3 _WorldSpaceCameraPos0;
+            float _Level;
 
             v2f vert (appdata v)
             {
@@ -53,7 +55,7 @@ Shader "Unlit/w06Shader"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float lightDIr = normalize(_LightDirection);
+                float lightDIr = normalize(_LightDirection); //_WorldSpaceLightPos0.xyz - i.worldPos
                 float lightIntensity = max(dot(i.normal,lightDIr),0);
 
                 float3 reflectDir = reflect(-_WorldSpaceLightPos0.xyz, normalize(i.normal));//입사각과 법선벡터를 기준으로 반사각 계산
@@ -61,7 +63,7 @@ Shader "Unlit/w06Shader"
                 float Spec = pow(max(obj2camDir,0),32);
 
                 float col = _DiffuseColor + lightIntensity + Spec;
-                float final = floor(col*4.3)/4.3;
+                float final = floor(col * _Level) / _Level;
                 return final;
             }
             ENDCG

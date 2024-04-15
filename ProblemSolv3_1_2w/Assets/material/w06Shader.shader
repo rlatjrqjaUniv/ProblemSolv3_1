@@ -37,8 +37,8 @@ Shader"Unlit/w06Shader"
             struct v2f
             {
                 float4 vertex : SV_POSITION;
-                float3 normal : NORMAL;
-            };
+                float3 normal : TEXCOORD0;
+};
 
             float4 _DiffuseColor;
             float4 _LightDirection;
@@ -49,7 +49,7 @@ Shader"Unlit/w06Shader"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.normal = v.normal;
+                o.normal = UnityObjectToWorldNormal(v.normal);
                 return o;
             }
 

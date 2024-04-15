@@ -25,7 +25,7 @@ public class StaticMesh : MonoBehaviour
 
     Vector3 GetNormal(Vector3 v1, Vector3 v2)
     {
-        Vector3 result = Vector3.Cross(v1,v2); //Vector3.Normalize(v1), Vector3.Normalize(v2) 
+        Vector3 result = Vector3.Normalize(Vector3.Cross(v1, v2)); //Vector3.Normalize(v1), Vector3.Normalize(v2) 
         return result;
     }
 
@@ -100,21 +100,26 @@ public class StaticMesh : MonoBehaviour
             Vector3.Normalize(GetNormal(vertices[10] - vertices[9], vertices[10] - vertices[11]) + GetNormal(vertices[10] - vertices[11], vertices[10] - vertices[4]) + GetNormal(vertices[10] - vertices[4], vertices[10] - vertices[9])),
             Vector3.Normalize(GetNormal(vertices[11] - vertices[10], vertices[11] - vertices[9]) + GetNormal(vertices[11] - vertices[9], vertices[11] - vertices[5]) + GetNormal(vertices[11] - vertices[5], vertices[11] - vertices[10])),
         };
+
         mesh.normals = normals;
 
-        //Debug.Log(GetNormal(vertices[0] - vertices[1], vertices[0] - vertices[2]));
-        //Debug.Log(GetNormal(vertices[0] - vertices[6], vertices[0] - vertices[1]));
-        //Debug.Log(GetNormal(vertices[0] - vertices[2], vertices[0] - vertices[6]));
+        for(int i= 0;i<vertices.Length;i++)
+        {
+            Debug.DrawRay(transform.position + vertices[i], normals[i], Color.red);
+
+            if(i<6)
+            {
+                Debug.DrawRay(transform.position + vertices[i], GetNormal(vertices[i] - vertices[i + 1], vertices[i + 0] - vertices[i + 2]), Color.blue);
+                Debug.DrawRay(transform.position + vertices[i], GetNormal(vertices[i] - vertices[i + 6], vertices[i + 0] - vertices[i + 1]), Color.blue);
+                Debug.DrawRay(transform.position + vertices[i], GetNormal(vertices[i] - vertices[i + 2], vertices[i + 0] - vertices[i + 6]), Color.blue);
+            }
+        }
 
         MeshFilter mf = this.AddComponent<MeshFilter>();
         MeshRenderer mr = this.AddComponent<MeshRenderer>();
 
         mf.mesh = mesh;
         mr.material = material;
-
-        //노멀 계산해서 메시에 던져주기
-        //메시-머테리얼-쉐이더 순서로 노멀 정보를 받아오는데 별에는 지금 노멀이 없음
-        //그래서 정점 정보 넘겨주는 것처럼 노멀 넘겨주기
     }
 
     void Start()
@@ -126,6 +131,6 @@ public class StaticMesh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        GenerateMesh();
     }
 }

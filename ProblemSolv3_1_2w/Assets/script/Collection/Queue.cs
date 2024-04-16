@@ -3,64 +3,38 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-namespace Queue1
+public class Queue<T>
 {
-    public class Node<T>
-    {
-        public T value;
-        public Node<T> nextNode;
+    LinkedList<T> list = new LinkedList<T>();
 
-        public Node(T data)
-        {
-            value = data;
-            nextNode = null;
-        }
+    public Queue()
+    {
+        
     }
 
-
-    public class Queue<T>
+    public void Enqueue(T Object)
     {
-        Node<T> head;
-
-        public Queue()
-        {
-            head = null;
-        }
-
-        public void Enqueue(T Object)
-        {
-            Node<T> current = head;
-
-            if (head == null)
-            {
-                head = new Node<T>(Object);
-                return;
-            }
-            else
-            {
-                while (current.nextNode != null)
-                {
-                    current = current.nextNode;
-                }
-
-                if (current.nextNode == null)
-                {
-                    current.nextNode = new Node<T>(Object);
-                }
-            }
-        }
-
-        public Node<T> Dequeue()
-        {
-            if (head == null)
-            {
-                return null;
-            }
-
-            Node<T> result = head;
-            head = head.nextNode;
-
-            return result;
-        }
+        list.AddBack(Object);
     }
+
+    public T Dequeue()
+    {
+        if (list.head == null)
+        {
+            return default;
+        }
+
+        Node<T> result = list.head;
+        list.head = list.head.nextNode;
+
+        return result.value;
+    }
+
+    public T Peek() 
+    { 
+        if(list.head == null) { return default; }
+        return list.head.value; 
+    }
+    public void Clear() { list.head = null; }
+    public Node<T> GetHead() { return list.head; }
 }

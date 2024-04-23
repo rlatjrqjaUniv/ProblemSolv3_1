@@ -29,22 +29,22 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.y + 45f, 0);
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 45f, 0);
             moveZ = 1f;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.y + 45f + 180, 0);
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 45f + 180, 0);
             moveZ = 1f;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.y +135f + 180, 0);
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y +135f + 180, 0);
             moveX = 1f;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.y +135f, 0);
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y +135f, 0);
             moveX = 1f;
         }
 

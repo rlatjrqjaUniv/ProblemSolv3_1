@@ -1,18 +1,18 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(StaticMesh))]
-public class StaticMeshEditor:Editor
+public class StaticMeshEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
         StaticMesh script = (StaticMesh)target;
 
-        if(GUILayout.Button("Generate Mesh"))
+        if (GUILayout.Button("Generate Mesh"))
         {
             script.GenerateMesh();
         }
@@ -40,7 +40,7 @@ public class StaticMesh : MonoBehaviour
 
         Vector3[] vertices = new Vector3[]
         {
-            //À­ÆÇ
+            //ï¿½ï¿½ï¿½ï¿½
             new Vector3(0.0f,0, 1.0f), //0
             new Vector3(1.0f,0, -0.55f), //1
             new Vector3(-1.0f,0, -0.55f),//2
@@ -49,7 +49,7 @@ public class StaticMesh : MonoBehaviour
             new Vector3(1.0f,0, 0.55f),//4
             new Vector3(0.0f,0, -1.0f),//5
 
-            //¾Æ·¡ÆÇ
+            //ï¿½Æ·ï¿½ï¿½ï¿½
             new Vector3(0.0f,-0.5f, 1.0f),//6
             new Vector3(1.0f,-0.5f, -0.55f),//7
             new Vector3(-1.0f,-0.5f, -0.55f),//8
@@ -103,11 +103,11 @@ public class StaticMesh : MonoBehaviour
 
         mesh.normals = normals;
 
-        for(int i= 0;i<vertices.Length;i++)
+        for (int i = 0; i < vertices.Length; i++)
         {
             Debug.DrawRay(transform.position + vertices[i], normals[i], Color.red);
 
-            if(i<6)
+            if (i < 6)
             {
                 Debug.DrawRay(transform.position + vertices[i], GetNormal(vertices[i] - vertices[i + 1], vertices[i + 0] - vertices[i + 2]), Color.blue);
                 Debug.DrawRay(transform.position + vertices[i], GetNormal(vertices[i] - vertices[i + 6], vertices[i + 0] - vertices[i + 1]), Color.blue);
@@ -115,10 +115,10 @@ public class StaticMesh : MonoBehaviour
             }
         }
 
-        MeshFilter mf = this.AddComponent<MeshFilter>();
-        MeshRenderer mr = this.AddComponent<MeshRenderer>();
-
+        MeshFilter mf = gameObject.AddComponent<MeshFilter>();
         mf.mesh = mesh;
+
+        MeshRenderer mr = gameObject.AddComponent<MeshRenderer>();
         mr.material = material;
     }
 
@@ -127,10 +127,10 @@ public class StaticMesh : MonoBehaviour
         GenerateMesh();
     }
 
-    
+
     // Update is called once per frame
     void Update()
     {
-        GenerateMesh();
+        //GenerateMesh();
     }
 }

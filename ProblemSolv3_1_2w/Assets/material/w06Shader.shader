@@ -1,4 +1,4 @@
-// Upgrade NOTE: commented out 'float3 _WorldSpaceCameraPos', a built-in variable
+ï»¿// Upgrade NOTE: commented out 'float3 _WorldSpaceCameraPos', a built-in variable
 
 // Upgrade NOTE: commented out 'float3 _WorldSpaceCameraPos', a built-in variable
 
@@ -26,46 +26,46 @@ Shader"Unlit/w06Shader"
             // make fog work
             #pragma multi_compile_fog
 
-            #include "UnityCG.cginc"
+#include "UnityCG.cginc"
 
-            struct appdata
-            {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
-            };
-
-            struct v2f
-            {
-                float4 vertex : SV_POSITION;
-                float3 normal : TEXCOORD0;
+struct appdata
+{
+    float4 vertex : POSITION;
+    float3 normal : NORMAL;
 };
 
-            float4 _DiffuseColor;
-            float4 _LightDirection;
-            float3 _WorldSpaceCameraPos0;
-            float _Level;
+struct v2f
+{
+    float4 vertex : SV_POSITION;
+    float3 normal : TEXCOORD0;
+};
 
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.normal = UnityObjectToWorldNormal(v.normal);
-                return o;
-            }
+float4 _DiffuseColor;
+float4 _LightDirection;
+float3 _WorldSpaceCameraPos0;
+float _Level;
 
-            fixed4 frag (v2f i) : SV_Target
-            {
-                float lightDIr = normalize(_LightDirection); //_WorldSpaceLightPos0.xyz - i.worldPos
-                float lightIntensity = max(dot(i.normal,lightDIr),0);
+v2f vert(appdata v)
+{
+    v2f o;
+    o.vertex = UnityObjectToClipPos(v.vertex);
+    o.normal = UnityObjectToWorldNormal(v.normal);
+    return o;
+}
 
-                float3 reflectDir = reflect(-_WorldSpaceLightPos0.xyz, normalize(i.normal));//ÀÔ»ç°¢°ú ¹ý¼±º¤ÅÍ¸¦ ±âÁØÀ¸·Î ¹Ý»ç°¢ °è»ê
-                float obj2camDir = dot(normalize(-_WorldSpaceCameraPos0.xyz),reflectDir);//¹°Ã¼¿¡¼­ ´«À¸·Î µé¾î¿À´Â ºû °¢µµ °è»ê
-                float Spec = pow(max(obj2camDir,0),32);
+fixed4 frag(v2f i) : SV_Target
+{
+    float lightDIr = normalize(_LightDirection); //_WorldSpaceLightPos0.xyz - i.worldPos
+    float lightIntensity = max(dot(i.normal, lightDIr), 0);
 
-                float col = _DiffuseColor + lightIntensity + Spec;
-                float final = floor(col * _Level) / _Level;
-                return final;
-            }
+    float3 reflectDir = reflect(-_WorldSpaceLightPos0.xyz, normalize(i.normal)); //ï¿½Ô»ç°¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý»ç°¢ ï¿½ï¿½ï¿½
+    float obj2camDir = dot(normalize(-_WorldSpaceCameraPos0.xyz), reflectDir); //ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+    float Spec = pow(max(obj2camDir, 0), 32);
+
+    float col = _DiffuseColor + lightIntensity + Spec;
+    float final = floor(col * _Level) / _Level;
+    return final;
+}
             ENDCG
         }
     }

@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        
+        cameraAxis = GameObject.Find("Axis");
     }
 
     void Update()
@@ -68,5 +68,25 @@ public class PlayerController : MonoBehaviour
 
         cameraAxis.transform.rotation = targetRotation;
         isRotating = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Target"))
+        {
+            Debug.Log("target");
+            
+        }
+
+        if (collision.gameObject.CompareTag("Respawn"))
+        {
+            Debug.Log("respawn");
+        }
+
+        if (collision.gameObject.CompareTag("Finish"))
+        {
+            Debug.Log("finish");
+            GameManager.instance.Clear();
+        }
     }
 }

@@ -13,9 +13,15 @@ public class Enemy : MonoBehaviour
     bool isPatrol;
     public Vector3 arrivePlace;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        
+    }
+
     void Start()
     {
+        patrolRange = GameObject.Find("Range");
+
         cam = GetComponent<Camera>();
         cam.fieldOfView = 45.0f * (1920 / 1080);
 
@@ -30,6 +36,11 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Player == null) 
+        {
+            Player = FindObjectOfType<PlayerController>().gameObject;
+        }
+
         fp = new FrustumPlanes(cam);
 
         //플레이어 발견

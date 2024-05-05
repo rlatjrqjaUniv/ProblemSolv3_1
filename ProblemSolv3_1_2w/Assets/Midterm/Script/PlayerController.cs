@@ -27,29 +27,12 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(RotateCamera(-90f));
         }
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 45f, 0);
-            moveZ = 1f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 45f + 180, 0);
-            moveZ = 1f;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y +135f + 180, 0);
-            moveX = 1f;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y +135f, 0);
-            moveX = 1f;
-        }
+        moveX = Mathf.Abs(Input.GetAxis("Horizontal"));
+        moveZ = Mathf.Abs(Input.GetAxis("Vertical"));
 
-        transform.Translate(Vector3.forward * moveZ * Time.deltaTime * moveSpeed);
-        transform.Translate(Vector3.forward * moveX * Time.deltaTime * moveSpeed);
+        GetRotation();
+
+        transform.Translate(Vector3.forward * Mathf.Clamp01(moveX+moveZ) * Time.deltaTime * moveSpeed);
     }
 
     IEnumerator RotateCamera(float angle)
@@ -68,6 +51,43 @@ public class PlayerController : MonoBehaviour
 
         cameraAxis.transform.rotation = targetRotation;
         isRotating = false;
+    }
+
+    void GetRotation()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 45f, 0);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 45f + 180, 0);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 45f + 270, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 45 + 90, 0);
+        }
+
+        if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W))
+        {
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 90f, 0);
+        }
+        else if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.W))
+        {
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y, 0);
+        }
+        else if (Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.S))
+        {
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y + 180, 0);
+        }
+        else if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.S))
+        {
+            transform.rotation = Quaternion.Euler(0, cameraAxis.transform.rotation.eulerAngles.y -90, 0);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

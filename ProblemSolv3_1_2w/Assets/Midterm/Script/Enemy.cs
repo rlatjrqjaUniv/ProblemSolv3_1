@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
         patrolRange = GameObject.Find("Range");
 
         cam = GetComponent<Camera>();
-        cam.fieldOfView = 45.0f * (1920 / 1080);
+        //cam.fieldOfView = 45.0f * (1920 / 1080);
 
         //카메라 한 변 길이(평균) * 정육면체 대각선 길이 * 3배
         cam.farClipPlane = (transform.localScale.x + transform.localScale.z) / 2 * Mathf.Pow(3, 0.5f) * 3f;
@@ -70,6 +70,12 @@ public class Enemy : MonoBehaviour
             }
 
             transform.Translate(Vector3.forward * 2f * Time.deltaTime);
+        }
+
+        Debug.DrawRay(transform.position, transform.rotation * Vector3.forward, Color.red);
+        if(Physics.Raycast(transform.position-new Vector3(0,0.2f,0), transform.rotation * Vector3.forward,0.7f))
+        {
+            MoveTo();
         }
     }
 
